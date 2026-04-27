@@ -1,0 +1,49 @@
+#Edge Detection using Roberts kernel
+#Import required libraries
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the image in grayscale mode
+image = cv2.imread('photo.jpg', 0)
+
+# Define Roberts X and Y kernels (2x2 masks)
+roberts_x = np.array([[1, 0],
+                      [0, -1]])
+
+roberts_y = np.array([[0, 1],
+                      [-1, 0]])
+
+# Apply convolution using filter2D
+# -1 keeps the output image depth same as input (uint8)
+gx = cv2.filter2D(image, -1, roberts_x) # X-gradient image
+gy = cv2.filter2D(image, -1, roberts_y) # Y-gradient image
+
+# Add X and Y gradients to get final edge image
+final = cv2.add(gx, gy)
+
+# Display results
+plt.figure(figsize =(8,8))
+
+plt.subplot(2,2,1)
+plt.imshow(image, cmap='gray')
+plt.title("Input Image")
+plt.axis("off")
+
+plt.subplot(2,2,2)
+plt.imshow(gx, cmap='gray')
+plt.title("Roberts X-Gradient Image (Gx)")
+plt.axis("off")
+
+plt.subplot(2,2,3)
+plt.imshow(gy, cmap='gray')
+plt.title("Roberts Y-Gradient Image (Gy)")
+plt.axis("off")
+
+plt.subplot(2,2,4)
+plt.imshow(final, cmap='gray')
+plt.title("Roberts Final Edge Image (Gx+Gy)")
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
