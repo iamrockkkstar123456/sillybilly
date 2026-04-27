@@ -1,0 +1,46 @@
+# Image High Pass Filtering
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the image
+image = cv2.imread("C:\\Jay\\IPMV\\Exp5\\img.jpg", 0)
+
+# Define sharpening kernels
+# Isometric HPF kernel
+sharpening_kernel_1 = np.array([
+    [1, 1, 1],
+    [1, -8, 1],
+    [1, 1, 1]
+])
+
+# Basic Laplacian kernel
+sharpening_kernel_2 = np.array([
+    [0, 1, 0],
+    [1, -4, 1],
+    [0, 1, 0]
+])
+
+# Apply the sharpening filter
+sharpened_image1 = cv2.filter2D(image, -1, sharpening_kernel_1)
+sharpened_image2 = cv2.filter2D(image, -1, sharpening_kernel_2)
+
+# Display images
+plt.figure(figsize =(10,5))
+plt.subplot(1,3,1)
+plt.imshow(image, cmap='gray')
+plt.title('Original Image')
+plt.axis('off')
+
+plt.subplot(1,3,2)
+plt.imshow(sharpened_image1, cmap='gray')
+plt.title('HPF using Isometric Kernel')
+plt.axis('off')
+
+plt.subplot(1,3,3)
+plt.imshow(sharpened_image2, cmap='gray')
+plt.title('HPF using Laplacian Kernel')
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
