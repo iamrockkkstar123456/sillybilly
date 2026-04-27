@@ -1,0 +1,55 @@
+#Histogram and histogram equilization
+#import required libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#read the image in grayscale
+image=cv2.imread('rice.png')
+print(image[50:51,50:51])
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+print(image[50:51,50:51])
+
+#check if the image is loaded successfully
+if image is None:
+    print("Error: Unable to load image")
+    exit()
+else:
+    print("Image loaded")
+
+#plot the original size image and its histogram
+plt.figure(figsize =(12,6))
+
+plt.subplot(2,2,1)
+plt.imshow(image, cmap='gray')
+plt.title("Original image")
+plt.axis('off')
+
+#plot histogram
+plt.subplot(2,2,2)
+plt.hist(image.ravel(), bins = 256, range =[0,255], color='red')
+#ravel() flattens the multi-dimensional image array into 1D array
+#This allows the histogram to be calculated for all pixel values together
+#The histogram is divided into 256 bins
+plt.title("Original Histogram")
+plt.xlabel("Pixel Intensity-->")
+plt.ylabel("No. of pixels nk-->")
+
+#perform histogram equilization
+equalized_image=cv2.equalizeHist(image)
+
+#plot the equilized image and its histogram
+plt.subplot(2,2,3)
+plt.imshow(equalized_image, cmap='gray')
+plt.title("Equilized_Image")
+plt.axis('off')
+
+plt.subplot(2,2,4)
+plt.hist(equalized_image.ravel(), bins=256, range=[0,255], color='blue')
+plt.title("Equilized Histogram")
+plt.xlabel("Pixel Intensity-->")
+plt.ylabel("No. of pixels nk-->")
+
+#show the plots
+plt.tight_layout()
+plt.show()
