@@ -1,0 +1,43 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#read the image
+img=cv2.imread("photo.jpg")
+if img is None:
+    print("Error loading image")
+else:
+    print("Image loaded successfully")
+
+#normalize image inrange(0-1)
+img_norm = img/255
+
+#nth root (gamma<1)
+gamma_root = 0.5 #square_root
+nth_root=np.power(img_norm,gamma_root)
+
+#nth root (gamma>1)
+gamma_power = 2.0 #square
+nth_power=np.power(img_norm,gamma_power)
+
+#Convert back to 0-255
+nth_root=np.uint8(nth_root*255)
+nth_power=np.uint8(nth_power*255)
+
+#display result
+plt.figure(1)
+plt.subplot(1,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("input image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(nth_root, cmap="gray")
+plt.title("nth root image")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(nth_power, cmap="gray")
+plt.title("nth power image")
+plt.axis("off")
+plt.show()
