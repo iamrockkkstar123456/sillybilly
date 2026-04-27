@@ -1,0 +1,44 @@
+#contrast stretching
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+img=cv2.imread("lowcont.png")
+r=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+if r is None:
+    print("Error in loading image")
+else:
+    print("Image Loaded")
+
+#take min and max intensity of input image
+rmin=np.min(r)
+rmax=np.max(r)
+
+print("Rmin",rmin)#display minimum intensity of input image
+print("Rmax",rmax)#display maximum intensity of input image
+
+#decide range of minimum and maximum intensity in output image
+smin = 0
+smax = 255
+
+#equation of contrast stretching
+s=((smax-smin)/(rmax-rmin))*(r-rmin)+smin
+print(smin)
+print(smax)
+
+#display input and contrast stretch image
+plt.figure(1)
+plt.subplot(1,2,1)
+plt.imshow(img, cmap="gray")
+plt.title("Input Image")
+plt.axis("off")
+
+plt.subplot(1,2,2)
+plt.imshow(s, cmap="gray")
+plt.title("Contrast stretched Image")
+plt.axis("off")
+plt.show()
+
+#Save the contrast stretched image
+cv2.imwrite("test1.jpg",s)
