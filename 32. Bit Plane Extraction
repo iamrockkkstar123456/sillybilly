@@ -1,0 +1,26 @@
+#bit plane extraction
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#read the image (grayscale)
+img=cv2.imread("photo.jpg",0)
+if img is None:
+    print("Error loading image")
+else:
+    print("Image loaded successfully")
+
+plt.figure(figsize =(10,6))
+
+#extracts the i-th bit plane
+for i in range(8):
+    bitplane=(img>>i) & 1
+    #right shift the image pixels by i bits
+    #masks all bits except the last bit(result 0 or 1)
+    
+    plt.subplot(2,4, i+1)
+    plt.imshow(bitplane*255, cmap="gray")
+    plt.title(f"Bit Plane{i}")
+    plt.axis("off")
+
+plt.show()
