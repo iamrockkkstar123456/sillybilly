@@ -1,0 +1,60 @@
+# Edge Detection using Sobel Kernel (Manual Matrix Form)
+# Import required libraries
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read image in grayscale
+image = cv2.imread('photo.jpg', 0)
+
+# Define Sobel kernels in matrix form
+#X-direction kernel (detects vertical edges)
+sobel_x = np.array([[-1, 0, 1],
+                    [-2, 0, 2],
+                    [-1, 0, 1]])
+
+#Y-direction kernel (detects horizontal edges)
+sobel_y = np.array([[-1, -2, -1],
+                    [ 0,  0,  0],
+                    [ 1,  2,  1]])
+
+# Apply convolution using filter2D
+#CV 64F preserves negative gradient values
+gx = cv2.filter2D(image, cv2.CV_64F, sobel_x)
+gy = cv2.filter2D(image, cv2.CV_64F, sobel_y)
+
+#Take absolute values
+gx = np.abs(gx)
+gy = np.abs(gy)
+
+# Compute gradient magnitude
+final = np.sqrt(gx**2 + gy**2)
+
+# Normalize to 0-255 for display
+final = np.uint8(255 * final / np.max(final))
+
+# Display results
+plt.figure(figsize =(8,8))
+
+plt.subplot(2,2,1)
+plt.imshow(image, cmap='gray')
+plt.title("Input Image")
+plt.axis("off")
+
+plt.subplot(2,2,2)
+plt.imshow(gx, cmap='gray')
+plt.title("Sobel X-Gradient (|Gx|)")
+plt.axis("off")
+
+plt.subplot(2,2,3)
+plt.imshow(gy, cmap='gray')
+plt.title("Sobel Y-Gradient (|Gy|)")
+plt.axis("off")
+
+plt.subplot(2,2,4)
+plt.imshow(final, cmap='gray')
+plt.title("Sobel Gradient Magnitude")
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
