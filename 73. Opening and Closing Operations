@@ -1,0 +1,57 @@
+#Morphological operations on actual images
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+img=cv2.imread('blobs.png',0)
+if img is None:
+    print('Error Reading the Image')
+else:
+    print('Image Loaded')
+
+#defining kernel
+kernel=np.ones((3,3), dtype=np.uint8)
+
+plt.figure(figsize =(10,10))
+
+#opening operation
+eroded_img=cv2.erode(img, kernel, iterations=1)
+
+plt.subplot(2,3,2)
+plt.imshow(eroded_img, cmap="gray")
+plt.title("Intermediate Operation Erosion")
+plt.axis("off")
+
+dilated_img=cv2.dilate(eroded_img, kernel, iterations = 1)
+
+#closing operation
+dilated_img1=cv2.dilate(img, kernel, iterations = 1)
+
+plt.subplot(2,3,5)
+plt.imshow(dilated_img1, cmap="gray")
+plt.title("Intermediate Operation Dilation")
+plt.axis("off")
+
+eroded_img1=cv2.erode(dilated_img1, kernel, iterations = 1)
+
+plt.subplot(2,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("Input image")
+plt.axis("off")
+
+plt.subplot(2,3,4)
+plt.imshow(img, cmap="gray")
+plt.title("Input image")
+plt.axis("off")
+
+plt.subplot(2,3,3)
+plt.imshow(dilated_img, cmap="gray")
+plt.title("Opening image")
+plt.axis("off")
+
+plt.subplot(2,3,6)
+plt.imshow(eroded_img1, cmap="gray")
+plt.title("Closing image")
+plt.axis("off")
+
+plt.show()
