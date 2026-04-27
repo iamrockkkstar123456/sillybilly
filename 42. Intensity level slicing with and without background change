@@ -1,0 +1,68 @@
+#Intensity level slicing with background change
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#load the grayscale image
+image_path="photo.jpg" #replace with your image file path
+img=cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+if img is None:
+    print("Error in loading image")
+else:
+    print("Image Loaded")
+    print(img.shape)
+
+#define threshold
+T1 = 100
+T2 = 200
+
+#get dimensions of the image
+row,col=img.shape
+
+#create an empty image for threshold result
+thr=np.zeros((row,col), dtype=np.uint8)
+thr1=np.zeros((row,col), dtype=np.uint8)
+
+#Apply threshold manually
+for i in range(row):
+    for j in range(col):
+        if T1<=img[i,j]<=T2:
+            thr[i,j] = 255 #set to white
+        else:
+            thr[i,j]=0 #set to black
+
+#Intensity level slicing without background change
+for m in range(row):
+    for n in range(col):
+        if T1<=img[m,n]<=T2:
+            thr1[m,n] = 255 #set to white
+        else:
+            thr1[m,n]=img[m,n] #set to black
+
+print("IP IMG pixels")
+print(img[110:115, 110:115])
+print("OP IMG pixels 1")
+print(thr[110:115, 110:115])
+print("OP IMG pixels 2")
+print(thr1[110:115, 110:115])
+
+#display the images
+plt.figure(1)
+plt.subplot(1,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("Input image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(thr, cmap="gray")
+plt.title("With bg change")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(thr1, cmap="gray")
+plt.title("Without bg change")
+plt.axis("off")
+plt.show()
+
+#save the image
+cv2.imwrite("output.jpg",thr)
