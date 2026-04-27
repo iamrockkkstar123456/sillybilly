@@ -1,0 +1,46 @@
+#Morphological operations on actual images
+#hit-or-miss operation
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#create binary image
+img= np.zeros((10,10), dtype=np.uint8)
+
+#create an object pattern in an image
+img[4,3] = 1
+img[4,4] = 1
+img[4,5] = 1
+img[3,4] = 1
+img[5,4] = 1
+img[4,7] = 1
+img[4,8] = 1
+img[4,9] = 1
+img[3,8] = 1
+img[5,8] = 1
+
+#define structuring element cross shape similar to figure
+kernel=np.array([[0,1,0], [1,1,1], [0,1,0]], dtype=np.uint8)
+
+#perform hit or miss transform
+hitmiss=cv2.morphologyEx(img, cv2.MORPH_HITMISS, kernel)
+
+#show result
+plt.figure(figsize =(10,10))
+
+plt.subplot(1,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("Original image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(kernel, cmap="gray")
+plt.title("Structuring element")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(hitmiss, cmap="gray")
+plt.title("Hit-or-miss output")
+plt.axis("off")
+
+plt.show()
