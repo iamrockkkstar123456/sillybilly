@@ -1,0 +1,28 @@
+#Part A to generate and display a synthetic image
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+print(cv2.__version__)
+a = np.array([[0,0,0,0], [0,15,15,0], [0,15,15,0], [0,0,0,0]])
+print('Given Matrix a:')
+print(a)
+print('Image shape',a.shape)
+print('Image size', a.size)
+print('Image Datatype', a.dtype)
+print('Image Dimension', a.ndim)
+print('Image type', type(a))
+print('Given image as Matrix', a)
+
+#display image using cv2
+#cv2.imshow('My Image',a)
+#cv2.waitKey(0)
+#cv2.destroyAllWindows()
+
+plt.imshow(a, cmap='gray')
+plt.title('My Image')
+plt.axis('off')
+plt.show()
+
+p1=a[1,2]
+print('pixel at (1,2)', p1 )
