@@ -1,0 +1,128 @@
+# ==========================================
+# 1. AND Gate
+# ==========================================
+print("--- AND Gate Training ---")
+# Given parameters
+w1 = 1.2
+w2 = 0.6
+learning_rate = 0.5
+threshold = 1
+
+# Activation function (step function)
+def activation(net, thresh):
+    return 1 if net >= thresh else 0
+
+# AND gate training data
+inputs_and = [(0, 0), (0, 1), (1, 0), (1, 1)]
+targets_and = [0, 0, 0, 1]
+
+# Training perceptron
+epochs = 5
+for epoch in range(epochs):
+    print(f"Epoch {epoch + 1}")
+    for i in range(len(inputs_and)):
+        x1, x2 = inputs_and[i]
+        target = targets_and[i]
+        
+        # Calculate net input
+        net = x1 * w1 + x2 * w2
+        
+        # Get output
+        output = activation(net, threshold)
+        
+        # Calculate error
+        error = target - output
+        
+        # Update weights
+        w1 = w1 + learning_rate * error * x1
+        w2 = w2 + learning_rate * error * x2
+        
+        print(f"Input: ({x1}, {x2}), Output: {output}, Error: {error}")
+        print(f"Updated weights: w1 = {w1:.1f}, w2 = {w2:.1f}")
+    print("-" * 30)
+
+# Final testing
+print("Final AND gate outputs:")
+for x1, x2 in inputs_and:
+    net = x1 * w1 + x2 * w2
+    output = activation(net, threshold)
+    print(f"({x1}, {x2}) -> {output}")
+
+
+# ==========================================
+# 2. OR Gate
+# ==========================================
+print("\n\n--- OR Gate Training ---")
+# Reset parameters for OR gate
+w1 = 1.2
+w2 = 0.6
+learning_rate = 0.5
+threshold = 1
+
+# OR gate training data
+inputs_or = [(0, 0), (0, 1), (1, 0), (1, 1)]
+targets_or = [0, 1, 1, 1]
+
+# Training perceptron
+epochs = 5
+for epoch in range(epochs):
+    print(f"Epoch {epoch + 1}")
+    for i in range(len(inputs_or)):
+        x1, x2 = inputs_or[i]
+        target = targets_or[i]
+        
+        net = x1 * w1 + x2 * w2
+        output = activation(net, threshold)
+        error = target - output
+        
+        w1 = w1 + learning_rate * error * x1
+        w2 = w2 + learning_rate * error * x2
+        
+        print(f"Input: ({x1}, {x2}), Output: {output}, Error: {error}")
+        print(f"Updated weights: w1 = {w1:.1f}, w2 = {w2:.1f}")
+    print("-" * 30)
+
+print("Final OR gate outputs:")
+for x1, x2 in inputs_or:
+    net = x1 * w1 + x2 * w2
+    output = activation(net, threshold)
+    print(f"({x1}, {x2}) -> {output}")
+
+
+# ==========================================
+# 3. NOT Gate
+# ==========================================
+print("\n\n--- NOT Gate Training ---")
+# Parameters for NOT gate (Only needs 1 weight)
+w1 = 1.2
+learning_rate = 0.5
+# Adjusted threshold so it can fire on a '0' input without a bias term
+threshold_not = -1 
+
+# NOT gate training data
+inputs_not = [(0,), (1,)]
+targets_not = [1, 0]
+
+# Training perceptron
+epochs = 5
+for epoch in range(epochs):
+    print(f"Epoch {epoch + 1}")
+    for i in range(len(inputs_not)):
+        x1 = inputs_not[i][0]
+        target = targets_not[i]
+        
+        net = x1 * w1 
+        output = activation(net, threshold_not)
+        error = target - output
+        
+        w1 = w1 + learning_rate * error * x1
+        
+        print(f"Input: ({x1}), Output: {output}, Error: {error}")
+        print(f"Updated weights: w1 = {w1:.1f}")
+    print("-" * 30)
+
+print("Final NOT gate outputs:")
+for (x1,) in inputs_not:
+    net = x1 * w1
+    output = activation(net, threshold_not)
+    print(f"({x1}) -> {output}")
