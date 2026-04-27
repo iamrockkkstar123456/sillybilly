@@ -1,0 +1,42 @@
+#Morphological operations on actual images
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+img=cv2.imread('blobs.png',0)
+if img is None:
+    print('Error Reading the Image')
+else:
+    print('Image Loaded')
+
+#defining kernel
+kernel=np.ones((3,3), dtype=np.uint8)
+
+#dilation
+dilated_img=cv2.dilate(img, kernel, iterations = 1)
+print("dilated image")
+print(dilated_img)
+
+#erosion
+eroded_img=cv2.erode(img, kernel, iterations = 1)
+print("eroded image")
+print(eroded_img)
+
+plt.figure(figsize =(10,10))
+
+plt.subplot(1,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("Original image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(dilated_img, cmap="gray")
+plt.title("Dilated image")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(eroded_img, cmap="gray")
+plt.title("Eroded image")
+plt.axis("off")
+
+plt.show()
