@@ -1,0 +1,38 @@
+#Morphological operations on actual images
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+img=cv2.imread('circles.png',0)
+if img is None:
+    print('Error Reading the Image')
+else:
+    print('Image Loaded')
+
+#defining kernel
+kernel=np.array([[0,1,0], [1,1,1], [0,1,0]], dtype=np.uint8)
+
+#erosion
+eroded_img=cv2.erode(img, kernel, iterations = 1)
+
+#boundary extraction
+boundary=img-eroded_img
+
+plt.figure(figsize =(10,10))
+
+plt.subplot(1,3,1)
+plt.imshow(img, cmap="gray")
+plt.title("Original image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(eroded_img, cmap="gray")
+plt.title("Intermediate Eroded image")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(boundary, cmap="gray")
+plt.title("Boundary extracted image")
+plt.axis("off")
+
+plt.show()
