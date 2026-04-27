@@ -1,0 +1,47 @@
+#thresholding operation
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#load the grayscale image
+image_path="photo.jpg" #replace with your image file path
+img=cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+
+if img is None:
+    print("Error in loading image")
+else:
+    print("Image Loaded")
+    print(img.shape)
+
+#define threshold
+T = 100
+
+#get dimensions of the image
+row,col=img.shape
+
+#create an empty image for threshold result
+thr=np.zeros((row,col), dtype=np.uint8)
+
+#Apply threshold manually
+for i in range(row):
+    for j in range(col):
+        if img[i,j]>T:
+            thr[i,j]=255 #set to white
+        else:
+            thr[i,j]=0 #set to black
+
+#display the images
+plt.figure(1)
+plt.subplot(1,2,1)
+plt.imshow(img, cmap="gray")
+plt.title("Input image")
+plt.axis("off")
+
+plt.subplot(1,2,2)
+plt.imshow(thr, cmap="gray")
+plt.title("Threshold image")
+plt.axis("off")
+plt.show()
+
+#save the image
+cv2.imwrite("output.jpg",thr)
