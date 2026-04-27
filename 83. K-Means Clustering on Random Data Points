@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+#take 10 data points
+np.random.seed(42)
+X=np.random.rand(100, 2)
+print(X)
+
+#plot without clustering
+plt.figure()
+plt.scatter(X[:,0], X[:,1])
+plt.title("Before clustering")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.show()
+
+#apply K-Means
+K=3 #number of clusters
+kmeans = KMeans (n_clusters = K)
+kmeans.fit(X)
+
+#get cluster labels and centroids
+labels = kmeans.labels_
+centroids= kmeans.cluster_centers_
+
+#Plot With clustering
+plt.figure()
+
+#coloured points
+plt.scatter(X[:,0], X[:,1], c = labels)
+
+#centroids
+plt.scatter(centroids [:, 0], centroids[:,1], marker ='X', color="red", s=200)
+plt.title("After clustering")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.show()
