@@ -1,0 +1,59 @@
+## Edge Detection using Prewitt Operator
+# Import required libraries
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the image in grayscale mode
+image = cv2.imread('photo.jpg', 0)
+
+# Define Prewitt kernels (3x3 masks)
+# Kernel for X-direction (detects horizontal edges)
+prewitt_x = np.array([[ 1, 1, 1],
+                      [ 0, 0, 0],
+                      [-1, -1, -1]])
+
+# Kernel for Y-direction (detects vertical edges)
+prewitt_y = np.array([[-1, 0, 1],
+                      [-1, 0, 1],
+                      [-1, 0, 1]])
+
+# Apply convolution using filter2D
+# CV_64F is used to preserve negative gradient values
+gx = cv2.filter2D(image, cv2.CV_64F, prewitt_x) # X-gradient image
+gy = cv2.filter2D(image, cv2.CV_64F, prewitt_y) # Y-gradient image
+
+#Take absolute values of gradients
+gx = np.abs(gx)
+gy = np.abs(gy)
+
+# Compute gradient magnitude
+final = np.sqrt(gx**2 + gy**2)
+
+# Normalize result to range 0-255 for display
+final = np.uint8(255 * final / np.max(final))
+
+# Display results
+plt.figure(figsize =(8,8))
+plt.subplot(2,2,1)
+plt.imshow(image, cmap='gray')
+plt.title("Input Image")
+plt.axis("off")
+
+plt.subplot(2,2,2)
+plt.imshow(gx, cmap='gray')
+plt.title("Prewitt X-Gradient Image (|Gx|)")
+plt.axis("off")
+
+plt.subplot(2,2,3)
+plt.imshow(gy, cmap='gray')
+plt.title("Prewitt Y-Gradient Image (|Gy|)")
+plt.axis("off")
+
+plt.subplot(2,2,4)
+plt.imshow(final, cmap='gray')
+plt.title("Prewitt Gradient Magnitude")
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
