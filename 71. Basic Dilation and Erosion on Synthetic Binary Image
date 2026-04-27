@@ -1,0 +1,45 @@
+#morphological operations
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#binary image
+binary_img= np.zeros((10,10), dtype=np.uint8)
+binary_img[2:7,3:8] = 1
+
+print("Binary Image")
+print(binary_img)
+
+#defining kernel-
+kernel=np.ones ((3,3), dtype=np.uint8)
+print("Structuring element")
+print(kernel)
+
+#dilation
+dilated_img=cv2.dilate(binary_img, kernel, iterations = 1)
+print("dilated image")
+print(dilated_img)
+
+#erosion
+eroded_img=cv2.erode(binary_img, kernel, iterations = 1)
+print("eroded image")
+print(eroded_img)
+
+plt.figure(figsize =(10,10))
+
+plt.subplot(1,3,1)
+plt.imshow(binary_img, cmap="gray")
+plt.title("Original binary image")
+plt.axis("off")
+
+plt.subplot(1,3,2)
+plt.imshow(dilated_img, cmap="gray")
+plt.title("Dilated image")
+plt.axis("off")
+
+plt.subplot(1,3,3)
+plt.imshow(eroded_img, cmap="gray")
+plt.title("Eroded image")
+plt.axis("off")
+
+plt.show()
