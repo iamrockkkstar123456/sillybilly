@@ -1,0 +1,47 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+#read the image
+img=cv2.imread("flower.jpg")
+if img is None:
+    print("Error loading image")
+else:
+    print("Image loaded successfully")
+
+img1=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+plt.figure(10)
+plt.subplot(1,3,1)
+plt.imshow(img1)
+plt.title("Input image")
+plt.axis("off")
+
+#flip the image
+img2=img1[:,::-1]
+plt.subplot(1,3,2)
+plt.imshow(img2)
+plt.title("Flip left right")
+
+img3=img1[::-1,:]
+plt.subplot(1,3,3)
+plt.imshow(img3)
+plt.title("Flip up-down")
+plt.axis("off")
+plt.show()
+
+#Modify some part of image
+plt.figure(2)
+plt.subplot(1,2,1)
+plt.imshow(img1)
+plt.title('Input image')
+plt.axis('off')
+
+p=img1
+p[100:150, 100:150] = 255
+
+plt.subplot(1,2,2)
+plt.imshow(p)
+plt.title('Modified image')
+plt.axis('off')
+plt.show()
